@@ -1,0 +1,52 @@
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
+import { celebrities } from '../celebrities-interface/celebrities-interface';
+import { CelebritiesService } from '../celebrities-services/celebrities.services';
+
+@Component({
+  selector: 'app-edit',
+  templateUrl: 'edit.page.html',
+  styleUrls: ['edit.page.scss']
+})
+export class EditPage {
+
+  celebrityId: number = 0;
+  celebrity?: celebrities;
+  formCelebrity: FormGroup | undefined;
+
+  constructor(private route: ActivatedRoute, private readonly _router: Router, private _celebrities: CelebritiesService, private readonly _location: Location) {
+    this.route.paramMap.subscribe(params => {
+      if (params && params.get('id')) {
+        const id = params.get('id');
+        if (id) {
+          this.celebrityId = +id;
+
+          this.celebrity = this._celebrities.getById(this.celebrityId);
+          console.log(this.celebrity);
+          this._setForm();
+        }
+      }
+    });
+  }
+
+  private _setForm() {
+    this.formCelebrity = new FormGroup({
+      id: new FormControl(this.celebrity?.id, Validators.required),
+      firstName: new FormControl(this.celebrity?.firstName, Validators.required),
+      lastName: new FormControl(this.celebrity?.lastName, Validators.required),
+      nationality: new FormControl(this.celebrity?.nationality, Validators.required)
+
+    });
+
+  }
+
+  submitForm() {
+    if (this.formCelebrity?.valid) {
+      this._celebrities.update(this.formCelebrity?.value);
+      this._location.back();
+
+    }
+  }
+}

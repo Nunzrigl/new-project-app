@@ -1,0 +1,31 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button default-href="#celebrities"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Celebrity Details</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <ion-header collapse="condense">
+        <ion-toolbar>
+            <ion-title size="large">Celebrity Detail</ion-title>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-card *ngIf="celebrity">
+        <img class="img" alt="Profile Picture"
+            src="https://fastly.picsum.photos/id/15/2500/1667.jpg?hmac=Lv03D1Y3AsZ9L2tMMC1KQZekBVaQSDc1waqJ54IHvo4" />
+        <ion-card-header>
+            <ion-card-title>{{celebrity.firstName}} {{celebrity.lastName}}</ion-card-title>
+            <ion-card-subtitle>{{celebrity.birthDate}}</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+            <strong>{{celebrity.nationality}}</strong>
+            <p></p>
+
+        </ion-card-content>
+    </ion-card>
+</ion-content>

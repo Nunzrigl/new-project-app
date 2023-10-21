@@ -1,0 +1,46 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button default-href="#celebrities"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Edit</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <ion-header collapse="condense">
+        <ion-toolbar>
+            <ion-title size="large">Edit details</ion-title>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-card>
+        <form *ngIf="formCelebrity" [formGroup]="formCelebrity" (ngSubmit)="submitForm()">
+            <ion-item>
+                <ion-input label="First name" labelPlacement="stacked" [clearInput]="true" formControlName="firstName" 
+                    placeholder="Enter first name">
+                </ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-input label="Last name" labelPlacement="stacked" [clearOnEdit]="true" formControlName="lastName"
+                    placeholder="Enter last name">
+                </ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-input label="Nationality" labelPlacement="stacked" [clearOnEdit]="true" formControlName="nationality"
+                    placeholder="Enter nationality">
+                </ion-input>
+            </ion-item>
+
+            <ion-row>
+                <ion-col>
+                    <ion-button type="submit"> Save </ion-button>
+                </ion-col>
+            </ion-row>
+        </form>
+
+    </ion-card>
+
+</ion-content>
