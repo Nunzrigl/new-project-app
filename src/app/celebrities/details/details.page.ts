@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { celebrities } from '../celebrities-interface/celebrities-interface';
@@ -13,22 +13,28 @@ import { CelebritiesService } from '../celebrities-services/celebrities.services
 })
 
 export class CelebrityDetailsPage {
-  celebrityId: number= 0;
-  celebrity?: celebrities ;
+  celebrityId: string='';
+  celebrity?: celebrities;
+ 
   
+  @Input() title ='Celebrity';
 
   constructor(private route: ActivatedRoute, private readonly _router: Router, private _celebrities: CelebritiesService) {
     this.route.paramMap.subscribe(params => {
       if (params && params.get('id')) {
         const id = params.get('id');
         if (id) {
-          this.celebrityId = +id;
-
-           this.celebrity = this._celebrities.getById(this.celebrityId);
-          console.log(this.celebrity);
+          this.celebrityId = id;
+          
+          this._celebrities.getById(this.celebrityId).subscribe((result: celebrities) => {
+            this.celebrity = result;
+            console.log(this.celebrity); 
+          })
         }
       }
     });
+
+   
   }
   
 

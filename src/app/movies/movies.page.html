@@ -1,11 +1,16 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Movies
-    </ion-title>
+    <ion-title> Movies </ion-title>
+    <ion-button slot="end" shape="round" (click)="create()">Create</ion-button>
   </ion-toolbar>
 </ion-header>
-
+<ion-item>
+  <ion-range
+    max="10"
+    aria-label="Range with ionChange"
+    (ionChange)="onIonChange($event)"
+  ></ion-range>
+</ion-item>
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
@@ -13,6 +18,27 @@
     </ion-toolbar>
   </ion-header>
 
-<movie-list [movies]="moviesList" (movie)="move($event)" (edit)="edit($event)"></movie-list>
-
+  <app-list
+    [list]="movieList"
+    (onSelect)="onSelect($event)"
+    (idToEdit)="edit($event)"
+    (idToDelete)="delete($event)"
+  ></app-list>
 </ion-content>
+
+
+<ion-footer *ngIf="selectedMovie">
+  <ion-toolbar>
+    <ion-title  class="footerTitle"><a [routerLink]="['./details', selectedMovie.id]">Details</a></ion-title>
+    <p [appColoreTitoli]="selectedMovie.rating"
+    [range]="selectedRating">
+       Name : {{selectedMovie.name}} <br>
+       Cast : {{selectedMovie.casts}} <br>
+       Rating : {{selectedMovie.rating}}
+    </p>
+    <app-rating
+      *ngIf="selectedItemRating"
+      [Rating]="selectedItemRating"
+    ></app-rating>
+  </ion-toolbar>
+</ion-footer>

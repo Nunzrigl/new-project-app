@@ -6,9 +6,12 @@ import { CelebritiesPage } from './celebrities.page';
 
 
 import { CelebritiesPageRoutingModule } from './celebrities-routing.module';
-import { CelebrityListPage } from './celebrities-list/celebrity-list.page';
 import { CelebrityDetailsPage } from './details/details.page';
 import { EditPage } from './edit/edit.page';
+import { CreatePage } from './create/create.page';
+import { HeaderModule } from '../shared/components/header/header.module';
+import { ListModule } from '../shared/components/list/list.module';
+
 
 
 @NgModule({
@@ -17,9 +20,10 @@ import { EditPage } from './edit/edit.page';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-  
+    HeaderModule,
+     ListModule, 
     CelebritiesPageRoutingModule
   ],
-  declarations: [CelebritiesPage, CelebrityListPage, CelebrityDetailsPage, EditPage]
+  declarations: [CelebritiesPage, CelebrityDetailsPage, EditPage, CreatePage]
 })
 export class CelebritiesPageModule {}

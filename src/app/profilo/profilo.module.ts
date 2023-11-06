@@ -8,6 +8,7 @@ import { ProfiloPage } from './profilo.page';
 import { ProfiloPageRoutingModule } from './profilo-routing.module';
 import { ProfiloCreatorePage } from './components/profilo-creatore.page';
 
+
 @NgModule({
   imports: [
     IonicModule,

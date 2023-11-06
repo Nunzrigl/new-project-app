@@ -1,0 +1,46 @@
+<ion-header>
+ <ion-toolbar>
+    <ion-title>Search movie</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <form [formGroup]="form">
+      <ion-item>
+        <ion-input
+          label="Movie title"
+          labelPlacement="stacked"
+          [clearInput]="true"
+          formControlName="name"
+          placeholder="Enter movie title"
+        >
+        </ion-input>
+      </ion-item>
+    </form>
+  </ion-toolbar>
+</ion-header> 
+
+<ion-list>
+  <ion-item-sliding *ngFor="let item of list | orderby">
+    <ion-item (click)="select(item)">
+      <ion-label>
+        {{ item.name }}
+        <p>{{ item.casts }}</p>
+      </ion-label>
+      <ion-label slot="end">({{ item.year }})
+        <ion-label class="ion-text-right">
+          <p>rating: {{ item.rating }}</p>
+        </ion-label>
+      </ion-label>
+    </ion-item>
+
+    <app-rating
+      slot="end"
+      *ngIf="item.rating"
+      [Rating]="item.rating"
+    ></app-rating>
+    <ion-item-options>
+      <ion-item-option (click)="editById(item.id)">Edit</ion-item-option>
+      <ion-item-option (click)="deleteById(item.id)">Delete</ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+</ion-list>
+

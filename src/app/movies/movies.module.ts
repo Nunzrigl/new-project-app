@@ -6,9 +6,17 @@ import { MoviesPage } from './movies.page';
 
 
 import { MoviesPageRoutingModule } from './movies-routing.module';
-import { MovieListPage } from './movie-list/movie-list.page';
+
 import { DetailsPage } from './details/details.page';
 import { EditPage } from './edit/edit.page';
+import { CreatePage } from './create/create.page';
+import { HeaderModule } from '../shared/components/header/header.module';
+import { ListModule } from '../shared/components/list/list.module';
+import { ListPage } from '../shared/components/list/list.component';
+import { RatingModule } from '../shared/components/rating/rating.module';
+import { ColoreTitoliDirective } from '../colore-titoli.directive';
+
+
 
 
 @NgModule({
@@ -17,9 +25,12 @@ import { EditPage } from './edit/edit.page';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-  
-    MoviesPageRoutingModule
+    HeaderModule,
+    MoviesPageRoutingModule,
+    ListModule,
+    RatingModule
   ],
-  declarations: [MoviesPage, MovieListPage, DetailsPage, EditPage ]
+  declarations: [MoviesPage,  DetailsPage, EditPage, CreatePage, ColoreTitoliDirective],
+  providers:[ListPage]
 })
 export class MoviesPageModule {}

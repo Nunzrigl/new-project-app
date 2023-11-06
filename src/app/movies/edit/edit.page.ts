@@ -12,23 +12,29 @@ import { Location } from '@angular/common';
 })
 export class EditPage {
 
-    movieId: number = 0;
+    movieId: string = '';
     movie?: films;
     formMovie : FormGroup | undefined ;
 
+    title = "Edit movie";
+    
     constructor(private route: ActivatedRoute, private readonly _router: Router, private _movieService: MoviesService, private readonly _location : Location) {
         this.route.paramMap.subscribe(params => {
             if (params && params.get('id')) {
                 const id = params.get('id');
                 if (id) {
-                    this.movieId = +id;
+                    this.movieId = id;
 
-                    this.movie = this._movieService.getById(this.movieId);
-                    console.log(this.movie);
-                    this._setForm();
+                    this._movieService.getById(this.movieId).subscribe((movies: films) => {
+                        this.movie = movies;
+                        this._setForm();});  
             
                 }
             }
+
+           
+            
+            
         });
     }
     
@@ -36,17 +42,25 @@ export class EditPage {
         this.formMovie = new FormGroup({
             id: new FormControl(this.movie?.id, Validators.required),
             title: new FormControl(this.movie?.title, Validators.required),
+            year: new FormControl(this.movie?.year,Validators.required),
             genres: new FormControl(this.movie?.genres,Validators.required),
-            plot: new FormControl(this.movie?.plot, Validators.required)
+            runningTime: new FormControl(this.movie?.runningTime, Validators.required)
 
-        });
+        }); 
+        
+      /*  this.formMovie.valueChanges.subscribe((x)=>{
+            console.log(x);
+        });  */
 
     }
 
-     submitForm (){
+    submitForm (){
         if(this.formMovie?.valid){
-             this._movieService.update(this.formMovie?.value);
-             this._location.back();    
+             this._movieService.update(this.formMovie?.value).subscribe((selectedMovie : films)=>{
+
+                this._location.back();
+             });
+               
             
         }
     } 

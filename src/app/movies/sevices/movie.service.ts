@@ -1,5 +1,8 @@
 import { Injectable } from "@angular/core";
-import { films } from "../interfaces/movies.interface";
+import { MovieForm, ResponseDto, films } from "../interfaces/movies.interface";
+import { Observable, Subject, map } from "rxjs";
+import { HttpClient } from "@angular/common/http"
+import { environment } from "src/environments/environment";
 
 
 @Injectable({
@@ -8,54 +11,104 @@ import { films } from "../interfaces/movies.interface";
 
 export class MoviesService{
 
-    movies : films[] = [
-        {   'title':'Alla ricerca di Nemo',
-            'id':1,
-            'genres':'Animation',
-            'releaseYear':2003,
-            'rating':8.2,
-            'lenght':100,
-            'plot':'Dopo che il suo unico figlio è stato catturato da pescatori e portato a vivere in un acquario a Sydney, un pesce deve intraprendere un lungo e pericoloso viaggio per salvarlo.'
-          
-        },
-        {
-            'title':'Cattivissimo me',
-            'id':2,
-            'genres':'Animation',
-            'releaseYear':2010,
-            'rating':7.6,
-            'lenght':92,
-            'plot':'Un genio del male adotta tre orfane per utilizzarle a scopi criminosi, ma scopre che il loro amore sta cambiando la sua personalità. '
-        },
-        {
-            'title':'Fantozzi',
-            'id':3,
-            'genres':'Commedy',
-            'releaseYear':1975,
-            'rating':7.9,
-            'lenght':108,
-            'plot':'Un italiano buono ma sfortunato si trova costantemente in situazioni difficili, ma non perde mai il suo buon umore. '
-        }
-        
-    ]
+    private _baseUrl= '';
+    
+    private _movies : films[] = [];
 
-    getList(){
-         
-    return this.movies;
+    private _list$ = new Subject<films[]>();
+
+    listObs$= this._list$.asObservable();
+    
+    
+    constructor( private readonly _http : HttpClient, ){
+        this._baseUrl = environment.baseUrl;
     }
 
-    getById (id: number): films |undefined{
-        const movie = this.movies.find((movies:films)=> movies.id === id);
-        return movie;
+
+
+
+
+   /*  private _getIndex (id: string): number | string {
+        return this._movies.findIndex((movies:films)=> movies.id === id);
     
     }
 
-    update(selectedMovie : films): void {
-        const index = this.movies.findIndex((movies:films)=> movies.id === selectedMovie.id);
-        if(index !== -1){
-            this.movies[index] = selectedMovie;
-        }
-      
+
+    private _next () {
+        this._list$.next(this._movies); 
     }
+ */
+
+    getList(): Observable<films[]> {  
+        return this._http.get<films[]>(`${this._baseUrl}/movies?order_by=id&page=0&size=25`).pipe(map((result : any)=>{
+          return result.movies
+        })
+        )
+      /* this._next(); */
+      /* return this.movies; */
+    }
+
+
+    getById (id: number| string): Observable<films> {
+        //const movie = this._movies.find((movies:films)=> movies.id === id);
+        return this._http.get<films>(`${this._baseUrl}/movies/${id}`);
+    }
+
+
+
+    update(selectedMovie : films): Observable<films> {
+    
+        return this._http.put<films>(`${this._baseUrl}/movies/${selectedMovie.id}`,
+        selectedMovie);
+               /*  const index : number |string = this._getIndex(selectedMovie.id);
+        if(index !== -1){
+            this._movies[index] = selectedMovie;
+        }
+        this._next(); */
+    } 
+ 
+   
+    create(movie: MovieForm): Observable<films>{
+        const movieDto : films = this.formToDto(movie);
+        return this._http.post<films>(`${this._baseUrl}/movies`,
+        movieDto);
+      /* movie.id = this._movies.length + 1;
+      this._movies.push(movie);
+      this._next(); */
+    }
+   
+    delete(id : string): Observable<films>{
+        return this._http.delete<films>(`${this._baseUrl}/movies/${id}`);
+      /*   const index : number= this._getIndex(id);
+        if(index !== -1){
+            this._movies.splice(index,1);    
+        }
+        this._next(); */
+    }
+
+     formToDto(createdMovie: MovieForm): films {
+        return {
+          id: createdMovie.id,
+          title: createdMovie.title,
+          rating: {
+            averageRating: createdMovie.averageRating,
+            numVotes: createdMovie.numVotes,
+          },
+          runningTime: createdMovie.runningTime,
+          year: createdMovie.year,
+          genres: createdMovie.genres,
+          cast: createdMovie.cast,
+        };
+      }
+
+      getByTitle(title: string): Observable<films[]>{
+        return this._http.get<ResponseDto>(`${this._baseUrl}/movies?title=${title}`).pipe(map((result )=>{
+         
+          return result.movies
+        })
+        )
+      }
+
+     
 }
 

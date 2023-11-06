@@ -12,20 +12,24 @@ import { CelebritiesService } from '../celebrities-services/celebrities.services
 })
 export class EditPage {
 
-  celebrityId: number = 0;
+  celebrityId: string = '';
   celebrity?: celebrities;
   formCelebrity: FormGroup | undefined;
 
+  title= 'Edit Celebrity';
   constructor(private route: ActivatedRoute, private readonly _router: Router, private _celebrities: CelebritiesService, private readonly _location: Location) {
     this.route.paramMap.subscribe(params => {
       if (params && params.get('id')) {
         const id = params.get('id');
         if (id) {
-          this.celebrityId = +id;
+          this.celebrityId = id;
 
-          this.celebrity = this._celebrities.getById(this.celebrityId);
-          console.log(this.celebrity);
-          this._setForm();
+          this._celebrities.getById(this.celebrityId).subscribe((celebrities: celebrities) => {
+            this.celebrity = celebrities;
+            this._setForm();
+          });  
+          //this.celebrity = this._celebrities.getById(this.celebrityId);
+          
         }
       }
     });
@@ -34,9 +38,9 @@ export class EditPage {
   private _setForm() {
     this.formCelebrity = new FormGroup({
       id: new FormControl(this.celebrity?.id, Validators.required),
-      firstName: new FormControl(this.celebrity?.firstName, Validators.required),
-      lastName: new FormControl(this.celebrity?.lastName, Validators.required),
-      nationality: new FormControl(this.celebrity?.nationality, Validators.required)
+      name: new FormControl(this.celebrity?.name, Validators.required),
+      birthYear: new FormControl(this.celebrity?.birthYear, Validators.required),
+      deathYear: new FormControl(this.celebrity?.deathYear)
 
     });
 
@@ -44,8 +48,10 @@ export class EditPage {
 
   submitForm() {
     if (this.formCelebrity?.valid) {
-      this._celebrities.update(this.formCelebrity?.value);
-      this._location.back();
+      this._celebrities.update(this.formCelebrity?.value).subscribe((selectedCelebrity: celebrities)=>{
+        this._location.back();
+
+      });
 
     }
   }

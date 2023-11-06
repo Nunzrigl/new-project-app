@@ -1,12 +1,4 @@
-<ion-header [translucent]="true">
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-back-button default-href="#"></ion-back-button>
-        </ion-buttons>
-        <ion-title>Edit</ion-title>
-    </ion-toolbar>
-</ion-header>
-
+<app-header [title]="title"></app-header>
 <ion-content [fullscreen]="true">
     <ion-header collapse="condense">
         <ion-toolbar>
@@ -28,9 +20,16 @@
                 </ion-input>
             </ion-item>
 
+            
             <ion-item>
-                <ion-input label="Movie plot" labelPlacement="stacked" [clearOnEdit]="true" formControlName="plot"
-                    placeholder="Enter movie plot">
+                <ion-input label="Movie release year" labelPlacement="stacked" [clearOnEdit]="true" formControlName="year"
+                    placeholder="Enter movie release year">
+                </ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-input label="Movie running time" labelPlacement="stacked" [clearOnEdit]="true" formControlName="runningTime"
+                    placeholder="Enter movie Running time">
                 </ion-input>
             </ion-item>
 

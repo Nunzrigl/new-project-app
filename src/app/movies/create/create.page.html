@@ -1,0 +1,61 @@
+<app-header [title]="title"></app-header>
+<ion-content [fullscreen]="true">
+    <ion-header collapse="condense">
+        <ion-toolbar>
+            <ion-title size="large">Edit details</ion-title>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-card>
+        <form *ngIf="formCreate" class="form" [formGroup]="formCreate" (ngSubmit)="submitForm()">
+
+            <ion-item>
+                <ion-input label="Movie id" labelPlacement="stacked" [clearInput]="true" formControlName="id" 
+                    placeholder="Enter movie id">
+                </ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-input label="Movie title" labelPlacement="stacked" [clearInput]="true" formControlName="title" 
+                    placeholder="Enter movie title">
+                </ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-input label="Movie genre" labelPlacement="stacked" [clearOnEdit]="true" formControlName="genres"
+                    placeholder="Enter movie genre">
+                </ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-input label="Running time" labelPlacement="stacked" [clearOnEdit]="true" formControlName="runningTime"
+                    placeholder="Enter movie runningTime">
+                </ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-input label="Year" labelPlacement="stacked" [clearOnEdit]="true" formControlName="year"
+                    placeholder="Enter movie year">
+                </ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-input label="Average rating" labelPlacement="stacked" [clearOnEdit]="true" formControlName="averageRating"
+                    placeholder="Enter movie average rating">
+                </ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-input label="Numero voti" labelPlacement="stacked" [clearOnEdit]="true" formControlName="numVotes"
+                    placeholder="Enter movie numero voti">
+                </ion-input>
+            </ion-item>
+
+            <ion-row>
+                <ion-col>
+                    <ion-button type="submit"> Save </ion-button>
+                </ion-col>
+            </ion-row>
+        </form>
+    </ion-card>
+
+</ion-content>

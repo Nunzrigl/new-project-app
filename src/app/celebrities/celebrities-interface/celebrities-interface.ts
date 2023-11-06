@@ -1,8 +1,25 @@
+export interface CelebrityForm {
+    id:string;
+    name:string;
+    birthYear?:number;
+    deathYear?:number;
+    movies?:Movies;
+  
+  }
 
 export interface celebrities{
-    firstName:string;
-    id:number;
-    lastName:string;
-    birthDate:number;
-    nationality:string;
+    id:string;
+    name:string;
+    birthYear?:number;
+    deathYear?:number;
+    movies?: Movies;
    }
+
+export interface Movies{
+    celebrityName: string,
+    celebrityId:string,
+    movieTitle: string,
+    movieId: string,
+    category: string,
+    characters: string
+}
